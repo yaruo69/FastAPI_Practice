@@ -1,13 +1,14 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app = FastAPI();
 
 # PydanticのBaseModelを継承して、リクエストボディのデータモデルを定義する。
 # BaseModelを継承することで、FastAPIは自動的にデータのバリデーションやシリアライズを行うことができる。
 class Item(BaseModel):
-    name: str
-    price: int
+    name: str = Field(..., min_length=1, max_length=50)
+    price: int = Field(..., gt=0)
+    description: str | None = Field(default=None, max_length=200)
 
 # デコレーターを使用して、HTTP GETリクエストを受け取るメソッド
 # FastAPIがこの関数を「APIとして登録」している。
