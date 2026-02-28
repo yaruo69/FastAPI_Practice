@@ -21,6 +21,8 @@
    pip install fastapi uvicorn
    ```
 
+   - `uvicorn`はASGIサーバーであり、FastAPIアプリを実行する「実行エンジン」
+
 3. **サーバーを起動**:
 
    ```bash
