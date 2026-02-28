@@ -10,6 +10,11 @@ class Item(BaseModel):
     price: int = Field(..., gt=0)
     description: str | None = Field(default=None, max_length=200)
 
+class ItemResponse(BaseModel):
+    id: int
+    name: str
+    price: int
+
 # デコレーターを使用して、HTTP GETリクエストを受け取るメソッド
 # FastAPIがこの関数を「APIとして登録」している。
 @app.get("/")
@@ -31,7 +36,7 @@ def read_item(name:str, price:int):
     return {"name": name, "price": price}
 
 # postリクエストを受け取るためのエンドポイントを定義する。
-@app.post("/items/")
+@app.post("/items/", response_model=ItemResponse)
 # Itemクラスを引数に取る関数を定義することで、FastAPIはリクエストボディからJSONをパースして、Itemクラスのインスタンスを作成する。
 def create_item(item: Item):
-    return {"received": item}
+    return {"id": 1, "name": item.name, "price": item.price }
